@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, request, url_for
@@ -159,6 +160,62 @@ def tasks():
         "tasks/list.html",
         tasks=all_tasks,
     )
+
+
+@app.route("/tasks/add", methods=["GET", "POST"])
+def add_task():
+    """Display the task form and save a new study task."""
+    all_subjects = Subject.query.order_by(Subject.name).all()
+
+    if not all_subjects:
+        flash("Add a subject before creating a study task.", "error")
+        return redirect(url_for("add_subject"))
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        description = request.form.get("description", "").strip()
+        due_date_text = request.form.get("due_date", "")
+        priority = request.form.get("priority", "medium")
+        subject_id = request.form.get("subject_id", type=int)
+        allowed_priorities = ["low", "medium", "high"]
+
+        if not title:
+            flash("Please enter a task title.", "error")
+            return render_template("tasks/add.html", subjects=all_subjects)
+
+        if len(title) > 150:
+            flash("The task title must be 150 characters or fewer.", "error")
+            return render_template("tasks/add.html", subjects=all_subjects)
+
+        try:
+            due_date = datetime.strptime(due_date_text, "%Y-%m-%d").date()
+        except ValueError:
+            flash("Please enter a valid due date.", "error")
+            return render_template("tasks/add.html", subjects=all_subjects)
+
+        if priority not in allowed_priorities:
+            flash("Please select a valid priority.", "error")
+            return render_template("tasks/add.html", subjects=all_subjects)
+
+        subject = db.session.get(Subject, subject_id)
+        if subject is None:
+            flash("Please select a valid subject.", "error")
+            return render_template("tasks/add.html", subjects=all_subjects)
+
+        task = StudyTask(
+            title=title,
+            description=description or None,
+            due_date=due_date,
+            priority=priority,
+            subject_id=subject.id,
+        )
+        db.session.add(task)
+        db.session.commit()
+
+        flash("Study task added successfully.", "success")
+        return redirect(url_for("tasks"))
+
+    return render_template("tasks/add.html", subjects=all_subjects)
 
 
 @app.route("/about")

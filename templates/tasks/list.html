@@ -9,6 +9,8 @@
     <p>
         View your study tasks, deadlines, priorities, and progress.
     </p>
+
+    <a href="{{ url_for('add_task') }}">Add task</a>
 </section>
 
 <section>
@@ -47,6 +49,8 @@
     <p>
         Add a study task to start tracking your work and deadlines.
     </p>
+
+    <a href="{{ url_for('add_task') }}">Add your first task</a>
     {% endif %}
 </section>
 {% endblock %}

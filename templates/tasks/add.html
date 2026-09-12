@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Add Task | StudyTrack{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Add a study task</h1>
+
+    <p>
+        Enter the task details and assign it to one of your subjects.
+    </p>
+</section>
+
+<section>
+    <form method="POST" action="{{ url_for('add_task') }}">
+        <div>
+            <label for="title">Task title</label>
+            <input type="text" id="title" name="title" maxlength="150" value="{{ request.form.get('title', '') }}"
+                required>
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="5">{{ request.form.get('description', '') }}</textarea>
+        </div>
+
+        <div>
+            <label for="due_date">Due date</label>
+            <input type="date" id="due_date" name="due_date" value="{{ request.form.get('due_date', '') }}" required>
+        </div>
+
+        <div>
+            <label for="priority">Priority</label>
+            {% set selected_priority = request.form.get('priority', 'medium') %}
+            <select id="priority" name="priority" required>
+                <option value="low" {% if selected_priority=='low' %}selected{% endif %}>
+                    Low
+                </option>
+                <option value="medium" {% if selected_priority=='medium' %}selected{% endif %}>
+                    Medium
+                </option>
+                <option value="high" {% if selected_priority=='high' %}selected{% endif %}>
+                    High
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="subject_id">Subject</label>
+            {% set selected_subject = request.form.get('subject_id', '') %}
+            <select id="subject_id" name="subject_id" required>
+                <option value="">Select a subject</option>
+                {% for subject in subjects %}
+                <option value="{{ subject.id }}" {% if selected_subject==subject.id|string %}selected{% endif %}>
+                    {{ subject.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit">Add task</button>
+        <a href="{{ url_for('tasks') }}">Cancel</a>
+    </form>
+</section>
+{% endblock %}
