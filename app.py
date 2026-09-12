@@ -103,6 +103,13 @@ def edit_subject(subject_id):
                 subject=subject,
             )
 
+        if len(name) > 100:
+            flash("The subject name must be 100 characters or fewer.", "error")
+            return render_template(
+                "subjects/edit.html",
+                subject=subject,
+            )
+
         if colour not in allowed_colours:
             flash("Please select a valid subject colour", "error")
             return render_template(
@@ -126,6 +133,24 @@ def edit_subject(subject_id):
         subject=subject
     )
 
+
+@app.route("/subjects/<int:subject_id>/delete", methods=["POST", "GET"])
+def delete_subject(subject_id):
+    """Display a confirmation page and delete a subject."""
+    subject = Subject.query.get_or_404(subject_id)
+
+    if request.method == "POST":
+        db.session.delete(subject)
+        db.session.commit()
+
+        flash("Subject deleted successfully.", "success")
+        return redirect(url_for("subjects"))
+
+    return render_template(
+        "subjects/delete.html",
+        subject=subject,
+    )
+    
 
 @app.route("/about")
 def about():

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ subject.name }} | StudyTrack{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Delete subject</h1>
+
+    <p>
+        Are you sure you want to delete <strong>{{ subject.name }}</strong>?
+    </p>
+
+    <p>
+        This action cannot be undone.
+    </p>
+
+    <form method="POST" action="{{ url_for('delete_subject', subject_id=subject.id) }}">
+        <button type="submit">Delete subject</button>
+        <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">
+            Cancel
+        </a>
+    </form>
+</section>
+{% endblock %}
