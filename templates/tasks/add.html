@@ -47,7 +47,9 @@
 
         <div>
             <label for="subject_id">Subject</label>
-            {% set selected_subject = request.form.get('subject_id', '') %}
+            {% set selected_subject = request.form.get(
+            'subject_id', request.args.get('subject_id', '')
+            ) %}
             <select id="subject_id" name="subject_id" required>
                 <option value="">Select a subject</option>
                 {% for subject in subjects %}

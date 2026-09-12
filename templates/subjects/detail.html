@@ -33,8 +33,35 @@
 <section>
     <h2>Study tasks</h2>
 
-    <p>
-        Study tasks for this subject will appear here.
-    </p>
+    <a href="{{ url_for('add_task', subject_id=subject.id) }}">
+        Add task for this subject
+    </a>
+
+    {% if tasks %}
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <h3>{{ task.title }}</h3>
+
+            {% if task.description %}
+            <p>{{ task.description }}</p>
+            {% else %}
+            <p>No description has been added.</p>
+            {% endif %}
+
+            <p>Due: {{ task.due_date.strftime('%d %B %Y') }}</p>
+            <p>Priority: {{ task.priority|title }}</p>
+
+            {% if task.is_complete %}
+            <p>Status: Complete</p>
+            {% else %}
+            <p>Status: Open</p>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No study tasks have been added for this subject.</p>
+    {% endif %}
 </section>
 {% endblock %}
