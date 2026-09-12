@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Subjects | StudyTrack{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Your subjects</h1>
+
+    <p>
+        View and manage the subjects you are currently studying.
+    </p>
+</section>
+
+<section>
+    {% if subjects %}
+    <ul>
+        {% for subject in subjects %}
+        <li>
+            <h2>{{ subject.name }}</h2>
+
+            {% if subject.description %}
+            <p>{{ subject.description }}</p>
+            {% else %}
+            <p>No description has been added.</p>
+            {% endif %}
+
+            <p>Colour: {{ subject.colour }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <h2>No subjects yet</h2>
+
+    <p>
+        Add your first subject to start organising your study tasks.
+    </p>
+    {% endif %}
+</section>
+{% endblock %}

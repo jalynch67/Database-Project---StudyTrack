@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, render_template
 
-from models import db
+from models import db, Subject
 
 
 load_dotenv()
@@ -22,6 +22,16 @@ db.init_app(app)
 def index():
     """Display the StudyTrack homepage."""
     return render_template("index.html")
+
+
+@app.route("/subjects")
+def subjects():
+    """Display all subjects."""
+    all_subjects = Subject.query.order_by(Subject.name).all()
+    return render_template(
+        "subjects/list.html",
+        subjects=all_subjects,
+    )
 
 
 @app.route("/about")
