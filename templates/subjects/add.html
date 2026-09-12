@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Add Subject | StudyTrack{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Add a subject</h1>
+
+    <p>
+        Enter the details for the subject you want to study.
+    </p>
+</section>
+
+<section>
+    <form method="POST" action="{{ url_for('add_subject') }}">
+        <div>
+            <label for="name">Subject name</label>
+            <input type="text" id="name" name="name" maxlength="100" value="{{ request.form.get('name', '') }}"
+                required>
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="5">{{ request.form.get('description', '') }}</textarea>
+        </div>
+
+        <div>
+            <label for="colour">Colour</label>
+            <select id="colour" name="colour" required>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="purple">Purple</option>
+                <option value="orange">Orange</option>
+                <option value="red">Red</option>
+            </select>
+        </div>
+
+        <button type="submit">Add subject</button>
+        <a href="{{ url_for('subjects') }}">Cancel</a>
+    </form>
+</section>
+{% endblock %}
