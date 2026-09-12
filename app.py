@@ -38,6 +38,7 @@ def subjects():
         subjects=all_subjects,
     )
 
+
 @app.route("/subjects/add", methods=["GET", "POST"])
 def add_subject():
     """Display the subject form and save a new subject."""
@@ -73,6 +74,7 @@ def add_subject():
 
     return render_template("subjects/add.html")
 
+
 @app.route("/subjects/<int:subject_id>")
 def subject_detail(subject_id):
     """Display the details for one subject"""
@@ -81,6 +83,49 @@ def subject_detail(subject_id):
         "subjects/detail.html",
         subject=subject
     )
+
+
+@app.route("/subjects/<int:subject_id>/edit", methods=["GET", "POST"])
+def edit_subject(subject_id):
+    """Display the edit form and update a subject."""
+    subject= Subject.query.get_or_404(subject_id)
+
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        description = request.form.get("description", "").strip()
+        colour = request.form.get("colour", "blue")
+        allowed_colours = ["blue", "green", "purple", "organge", "red"]
+
+        if not name:
+            flash("Please enter a subject name.", "error")
+            return render_template(
+                "subject/edit.html",
+                subject=subject,
+            )
+
+        if colour not in allowed_colours:
+            flash("Please select a valid subject colour", "error")
+            return render_template(
+                "subjects/edit.html",
+                subject=subject,
+            )
+
+        subject.name =  name
+        subject.description = description or None
+        subject.colour = colour
+
+        db.session.commit()
+
+        flash("Subject updated successfully.", "success")
+        return redirect(
+            url_for("subject_detail", subject_id=subject.id)
+        )
+
+    return render_template(
+        "subjects/edit.html",
+        subject=subject
+    )
+
 
 @app.route("/about")
 def about():
