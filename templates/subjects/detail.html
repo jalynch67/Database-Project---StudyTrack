@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ subject.name }} | StudyTrack{% endblock %}
+
+{% block content %}
+<section>
+    <p>
+        <a href="{{ url_for('subjects') }}">Back to subjects</a>
+    </p>
+
+    <h1>{{ subject.name }}</h1>
+
+    {% if subject.description %}
+    <p>{{ subject.description }}</p>
+    {% else %}
+    <p>No description has been added for this subject.</p>
+    {% endif %}
+
+    <p>Colour: {{ subject.colour }}</p>
+    <p>Created: {{ subject.created_at.strftime('%d %B %Y') }}</p>
+</section>
+
+<section>
+    <h2>Study tasks</h2>
+
+    <p>
+        Study tasks for this subject will appear here.
+    </p>
+</section>
+{% endblock %}

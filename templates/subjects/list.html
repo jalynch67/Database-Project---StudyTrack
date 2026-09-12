@@ -18,7 +18,11 @@
     <ul>
         {% for subject in subjects %}
         <li>
-            <h2>{{ subject.name }}</h2>
+            <h2>
+                <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">
+                    {{ subject.name }}
+                </a>
+            </h2>
 
             {% if subject.description %}
             <p>{{ subject.description }}</p>
@@ -27,6 +31,10 @@
             {% endif %}
 
             <p>Colour: {{ subject.colour }}</p>
+
+            <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">
+                View subject
+            </a>
         </li>
         {% endfor %}
     </ul>

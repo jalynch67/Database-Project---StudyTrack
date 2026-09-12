@@ -73,6 +73,14 @@ def add_subject():
 
     return render_template("subjects/add.html")
 
+@app.route("/subjects/<int:subject_id>")
+def subject_detail(subject_id):
+    """Display the details for one subject"""
+    subject = Subject.query.get_or_404(subject_id)
+    return render_template(
+        "subjects/detail.html",
+        subject=subject
+    )
 
 @app.route("/about")
 def about():
