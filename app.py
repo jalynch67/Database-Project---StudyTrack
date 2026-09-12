@@ -1,23 +1,20 @@
 import os
 
 from dotenv import load_dotenv
-from flask import Flask, render_template, flash, redirect, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for
 
-from models import db, Subject
+from models import StudyTask, Subject, db
 
 
 load_dotenv()
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    "DATABASE_URL",
-    "sqlite://studytrack.db",
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    os.environ.get("DATABASE_URL") or "sqlite:///studytrack.db"
 )
-
-app.config["SECRET_KEY"] = os.environ.get(
-    "SECRET_KEY",
-    "development-key",
+app.config["SECRET_KEY"] = (
+    os.environ.get("SECRET_KEY") or "development-key"
 )
 
 db.init_app(app)
@@ -46,6 +43,7 @@ def add_subject():
         name = request.form.get("name", "").strip()
         description = request.form.get("description", "").strip()
         colour = request.form.get("colour", "blue")
+
         allowed_colours = ["blue", "green", "purple", "orange", "red"]
 
         if not name:
@@ -77,29 +75,30 @@ def add_subject():
 
 @app.route("/subjects/<int:subject_id>")
 def subject_detail(subject_id):
-    """Display the details for one subject"""
+    """Display the details for one subject."""
     subject = Subject.query.get_or_404(subject_id)
     return render_template(
         "subjects/detail.html",
-        subject=subject
+        subject=subject,
     )
 
 
 @app.route("/subjects/<int:subject_id>/edit", methods=["GET", "POST"])
 def edit_subject(subject_id):
     """Display the edit form and update a subject."""
-    subject= Subject.query.get_or_404(subject_id)
+    subject = Subject.query.get_or_404(subject_id)
 
     if request.method == "POST":
         name = request.form.get("name", "").strip()
         description = request.form.get("description", "").strip()
         colour = request.form.get("colour", "blue")
-        allowed_colours = ["blue", "green", "purple", "organge", "red"]
+
+        allowed_colours = ["blue", "green", "purple", "orange", "red"]
 
         if not name:
             flash("Please enter a subject name.", "error")
             return render_template(
-                "subject/edit.html",
+                "subjects/edit.html",
                 subject=subject,
             )
 
@@ -111,13 +110,13 @@ def edit_subject(subject_id):
             )
 
         if colour not in allowed_colours:
-            flash("Please select a valid subject colour", "error")
+            flash("Please select a valid subject colour.", "error")
             return render_template(
                 "subjects/edit.html",
                 subject=subject,
             )
 
-        subject.name =  name
+        subject.name = name
         subject.description = description or None
         subject.colour = colour
 
@@ -130,11 +129,11 @@ def edit_subject(subject_id):
 
     return render_template(
         "subjects/edit.html",
-        subject=subject
+        subject=subject,
     )
 
 
-@app.route("/subjects/<int:subject_id>/delete", methods=["POST", "GET"])
+@app.route("/subjects/<int:subject_id>/delete", methods=["GET", "POST"])
 def delete_subject(subject_id):
     """Display a confirmation page and delete a subject."""
     subject = Subject.query.get_or_404(subject_id)
@@ -150,12 +149,23 @@ def delete_subject(subject_id):
         "subjects/delete.html",
         subject=subject,
     )
-    
+
+
+@app.route("/tasks")
+def tasks():
+    """Display all study tasks."""
+    all_tasks = StudyTask.query.order_by(StudyTask.due_date).all()
+    return render_template(
+        "tasks/list.html",
+        tasks=all_tasks,
+    )
+
 
 @app.route("/about")
 def about():
     """Display information about StudyTrack."""
     return render_template("about.html")
 
+
 if __name__ == "__main__":
-    app.run(debug=True) 
+    app.run(debug=True)
