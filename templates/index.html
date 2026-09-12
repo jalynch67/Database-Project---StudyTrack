@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyTrack</title>
-</head>
+{% block title %}Dashboard | StudyTrack{% endblock %}
 
-<body>
-    <header>
-        <h1>StudyTrack</h1>
-    </header>
+{% block content %}
+<section>
+    <h1>Plan your study time</h1>
 
-    <main>
-        <h2>Plan your study time</h2>
-        <p>
-            Keep track of your subjects, study tasks, priorities, and deadlines.
-        </p>
-    </main>
+    <p>
+        Keep track of your subjects, study tasks, priorities, and deadlines.
+    </p>
+</section>
 
-</body>
+<section>
+    <h2>Your study overview</h2>
 
-</html>
+    <p>
+        Your subjects and study tasks will appear here.
+    </p>
+</section>
+{% endblock %}
