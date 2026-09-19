@@ -3,92 +3,125 @@
 {% block title %}Dashboard | StudyTrack{% endblock %}
 
 {% block content %}
-<section>
-    <h1>Plan your study time</h1>
+<section class="dashboard-intro">
+    <div>
+        <h1>Plan your study time</h1>
+        <p>
+            Keep track of your subjects, study tasks, priorities, and deadlines.
+        </p>
+    </div>
 
-    <p>
-        Keep track of your subjects, study tasks, priorities, and deadlines.
-    </p>
+    <div class="dashboard-actions">
+        <a class="button button-primary" href="{{ url_for('add_task') }}">
+            Add task
+        </a>
+        <a class="button button-outline" href="{{ url_for('add_subject') }}">
+            Add subject
+        </a>
+    </div>
 </section>
 
 <section>
-    <h2>Your study overview</h2>
+    <div class="section-heading">
+        <h2>Your study overview</h2>
+    </div>
 
-    <div>
-        <article>
-            <h3>Subjects</h3>
-            <p>{{ total_subjects }}</p>
+    <div class="stats-grid">
+        <article class="stat-card">
+            <p class="stat-value">{{ total_subjects }}</p>
+            <p class="stat-label">Subjects</p>
+            <a href="{{ url_for('subjects') }}">View subjects</a>
         </article>
 
-        <article>
-            <h3>Total tasks</h3>
-            <p>{{ total_tasks }}</p>
+        <article class="stat-card">
+            <p class="stat-value">{{ total_tasks }}</p>
+            <p class="stat-label">Total tasks</p>
+            <a href="{{ url_for('tasks', status='all') }}">View all</a>
         </article>
 
-        <article>
-            <h3>Open tasks</h3>
-            <p>{{ open_tasks }}</p>
+        <article class="stat-card">
+            <p class="stat-value">{{ open_tasks }}</p>
+            <p class="stat-label">Open tasks</p>
+            <a href="{{ url_for('tasks', status='open') }}">View open</a>
         </article>
 
-        <article>
-            <h3>Completed tasks</h3>
-            <p>{{ completed_tasks }}</p>
+        <article class="stat-card">
+            <p class="stat-value">{{ completed_tasks }}</p>
+            <p class="stat-label">Completed</p>
+            <a href="{{ url_for('tasks', status='completed') }}">View completed</a>
         </article>
 
-        <article>
-            <h3>Overdue tasks</h3>
-            <p>{{ overdue_tasks }}</p>
+        <article class="stat-card">
+            <p class="stat-value">{{ overdue_tasks }}</p>
+            <p class="stat-label">Overdue</p>
+            <a href="{{ url_for('tasks', status='open') }}">Review tasks</a>
         </article>
     </div>
 </section>
 
 <section>
-    <h2>Upcoming tasks</h2>
+    <div class="section-heading section-heading-row">
+        <h2>Upcoming tasks</h2>
+        <a href="{{ url_for('tasks', status='open') }}">View all open tasks</a>
+    </div>
 
     {% if upcoming_tasks %}
-    <ul>
+    <ul class="dashboard-task-list">
         {% for task in upcoming_tasks %}
-        <li>
-            <h3>{{ task.title }}</h3>
+        <li class="dashboard-task-item">
+            <div class="task-main">
+                <h3>{{ task.title }}</h3>
+                <p>
+                    <a href="{{ url_for('subject_detail', subject_id=task.subject.id) }}">
+                        {{ task.subject.name }}
+                    </a>
+                </p>
+            </div>
 
-            <p>
-                Subject:
-                <a href="{{ url_for('subject_detail', subject_id=task.subject.id) }}">
-                    {{ task.subject.name }}
-                </a>
-            </p>
+            <div class="task-details">
+                <p>Due {{ task.due_date.strftime('%d %B %Y') }}</p>
+                <p>{{ task.priority|title }} priority</p>
 
-            <p>Due: {{ task.due_date.strftime('%d %B %Y') }}</p>
-            <p>Priority: {{ task.priority|title }}</p>
-
-            {% if task.due_date == today %}
-            <p>Due today</p>
-            {% endif %}
+                {% if task.due_date == today %}
+                <p class="due-today">Due today</p>
+                {% endif %}
+            </div>
 
             <a href="{{ url_for('edit_task', task_id=task.id) }}">
-                Edit task
+                Edit
             </a>
         </li>
         {% endfor %}
     </ul>
     {% else %}
-    <p>You have no upcoming open tasks.</p>
+    <div class="empty-state">
+        <h3>No upcoming open tasks</h3>
+        <p>
+            Add a task when you are ready to plan your next study session.
+        </p>
 
-    {% if total_subjects %}
-    <a href="{{ url_for('add_task') }}">Add a study task</a>
-    {% else %}
-    <a href="{{ url_for('add_subject') }}">Add your first subject</a>
-    {% endif %}
+        {% if total_subjects %}
+        <a class="button button-primary" href="{{ url_for('add_task') }}">
+            Add a study task
+        </a>
+        {% else %}
+        <a class="button button-primary" href="{{ url_for('add_subject') }}">
+            Add your first subject
+        </a>
+        {% endif %}
+    </div>
     {% endif %}
 </section>
 
 <section>
-    <h2>Quick actions</h2>
+    <div class="section-heading">
+        <h2>Quick actions</h2>
+    </div>
 
-    <p>
+    <div class="quick-actions">
         <a href="{{ url_for('add_subject') }}">Add subject</a>
         <a href="{{ url_for('add_task') }}">Add task</a>
         <a href="{{ url_for('tasks') }}">View all tasks</a>
-    </p>
+    </div>
 </section>
 {% endblock %}
