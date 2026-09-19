@@ -4,9 +4,7 @@
 
 {% block content %}
 <section class="subject-header">
-    <a class="back-link" href="{{ url_for('subjects') }}">
-        Back to subjects
-    </a>
+    <a class="back-link" href="{{ url_for('subjects') }}">Back to subjects</a>
 
     <div class="subject-title-row">
         <div>
@@ -16,98 +14,72 @@
             </div>
 
             {% if subject.description %}
-            <p>{{ subject.description }}</p>
+                <p class="subject-summary">{{ subject.description }}</p>
             {% else %}
-            <p class="muted-text">
-                No description has been added for this subject.
-            </p>
+                <p class="subject-summary muted-text">No description has been added for this subject.</p>
             {% endif %}
 
-            <p class="subject-meta">
-                Created {{ subject.created_at.strftime('%d %B %Y') }}
-            </p>
+            <p class="subject-meta">Created {{ subject.created_at.strftime('%d %B %Y') }}</p>
         </div>
 
         <div class="item-actions">
-            <a href="{{ url_for('edit_subject', subject_id=subject.id) }}">
-                Edit subject
-            </a>
-            <a class="danger-link" href="{{ url_for('delete_subject', subject_id=subject.id) }}">
-                Delete subject
-            </a>
+            <a href="{{ url_for('edit_subject', subject_id=subject.id) }}">Edit subject</a>
+            <a class="danger-link" href="{{ url_for('delete_subject', subject_id=subject.id) }}">Delete subject</a>
         </div>
     </div>
 </section>
 
-<section>
+<section class="subject-tasks-section">
     <div class="section-heading section-heading-row">
-        <h2>Study tasks</h2>
-        <a class="button button-primary" href="{{ url_for('add_task', subject_id=subject.id) }}">
-            Add task
-        </a>
+        <div>
+            <p class="section-kicker">Work to complete</p>
+            <h2>Study tasks</h2>
+        </div>
+        <a class="button button-primary" href="{{ url_for('add_task', subject_id=subject.id) }}">Add task</a>
     </div>
 
     {% if tasks %}
-    <ul class="subject-task-list">
-        {% for task in tasks %}
-        <li class="subject-task-item">
-            <div class="task-main">
-                <h3>{{ task.title }}</h3>
+        <ul class="subject-task-list">
+            {% for task in tasks %}
+                <li class="subject-task-item">
+                    <div class="task-main">
+                        <h3>{{ task.title }}</h3>
+                        {% if task.description %}
+                            <p>{{ task.description }}</p>
+                        {% else %}
+                            <p>No description has been added.</p>
+                        {% endif %}
+                    </div>
 
-                {% if task.description %}
-                <p>{{ task.description }}</p>
-                {% else %}
-                <p class="muted-text">No description has been added.</p>
-                {% endif %}
-            </div>
+                    <div class="task-details">
+                        <p>Due {{ task.due_date.strftime('%d %B %Y') }}</p>
+                        <span class="priority priority-{{ task.priority }}">{{ task.priority|title }} priority</span>
+                        <p>{% if task.is_complete %}Complete{% else %}Open{% endif %}</p>
+                    </div>
 
-            <div class="task-details">
-                <p>Due {{ task.due_date.strftime('%d %B %Y') }}</p>
-                <p>{{ task.priority|title }} priority</p>
-                <p>
-                    {% if task.is_complete %}
-                    Complete
-                    {% else %}
-                    Open
-                    {% endif %}
-                </p>
-            </div>
+                    <div class="task-controls">
+                        <form method="POST" action="{{ url_for('toggle_task', task_id=task.id) }}">
+                            {% if task.is_complete %}
+                                <button class="button-small button-muted" type="submit">Mark as open</button>
+                            {% else %}
+                                <button class="button-small" type="submit">Mark complete</button>
+                            {% endif %}
+                        </form>
 
-            <div class="task-controls">
-                <form method="POST" action="{{ url_for('toggle_task', task_id=task.id) }}">
-                    {% if task.is_complete %}
-                    <button class="button-small button-muted" type="submit">
-                        Mark as open
-                    </button>
-                    {% else %}
-                    <button class="button-small" type="submit">
-                        Mark complete
-                    </button>
-                    {% endif %}
-                </form>
-
-                <div class="item-actions">
-                    <a href="{{ url_for('edit_task', task_id=task.id) }}">
-                        Edit
-                    </a>
-                    <a class="danger-link" href="{{ url_for('delete_task', task_id=task.id) }}">
-                        Delete
-                    </a>
-                </div>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
+                        <div class="item-actions">
+                            <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
+                            <a class="danger-link" href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
-    <div class="empty-state">
-        <h3>No tasks for this subject</h3>
-        <p>
-            Add a task to begin tracking work for {{ subject.name }}.
-        </p>
-        <a class="button button-primary" href="{{ url_for('add_task', subject_id=subject.id) }}">
-            Add task
-        </a>
-    </div>
+        <div class="empty-state">
+            <h3>No tasks for this subject</h3>
+            <p>Add a task to begin tracking work for {{ subject.name }}.</p>
+            <a class="button button-primary" href="{{ url_for('add_task', subject_id=subject.id) }}">Add task</a>
+        </div>
     {% endif %}
 </section>
 {% endblock %}

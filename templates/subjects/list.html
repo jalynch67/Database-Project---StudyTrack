@@ -5,18 +5,18 @@
 {% block content %}
 <section class="page-intro">
     <div>
+        <p class="section-kicker">Your study areas</p>
         <h1>Your subjects</h1>
-        <p>
-            View and manage the subjects you are currently studying.
-        </p>
+        <p>Keep each area of study organised and easy to return to.</p>
     </div>
-
-    <a class="button button-primary" href="{{ url_for('add_subject') }}">
-        Add subject
-    </a>
+    <a class="button button-primary" href="{{ url_for('add_subject') }}">Add subject</a>
 </section>
 
-<section>
+<section class="subject-list-section">
+    <div class="section-heading">
+        <h2>Current subjects</h2>
+    </div>
+
     {% if subjects %}
     <ul class="subject-list">
         {% for subject in subjects %}
@@ -33,20 +33,14 @@
                 {% if subject.description %}
                 <p>{{ subject.description }}</p>
                 {% else %}
-                <p class="muted-text">No description has been added.</p>
+                <p>No description has been added.</p>
                 {% endif %}
-            </div>
 
-            <div class="item-actions">
-                <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">
-                    View
-                </a>
-                <a href="{{ url_for('edit_subject', subject_id=subject.id) }}">
-                    Edit
-                </a>
-                <a class="danger-link" href="{{ url_for('delete_subject', subject_id=subject.id) }}">
-                    Delete
-                </a>
+                <div class="item-actions">
+                    <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">View</a>
+                    <a href="{{ url_for('edit_subject', subject_id=subject.id) }}">Edit</a>
+                    <a class="danger-link" href="{{ url_for('delete_subject', subject_id=subject.id) }}">Delete</a>
+                </div>
             </div>
         </li>
         {% endfor %}
@@ -54,12 +48,8 @@
     {% else %}
     <div class="empty-state">
         <h2>No subjects yet</h2>
-        <p>
-            Add your first subject to start organising your study tasks.
-        </p>
-        <a class="button button-primary" href="{{ url_for('add_subject') }}">
-            Add your first subject
-        </a>
+        <p>Add your first subject to start organising your study tasks.</p>
+        <a class="button button-primary" href="{{ url_for('add_subject') }}">Add your first subject</a>
     </div>
     {% endif %}
 </section>
