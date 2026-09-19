@@ -14,8 +14,81 @@
 <section>
     <h2>Your study overview</h2>
 
+    <div>
+        <article>
+            <h3>Subjects</h3>
+            <p>{{ total_subjects }}</p>
+        </article>
+
+        <article>
+            <h3>Total tasks</h3>
+            <p>{{ total_tasks }}</p>
+        </article>
+
+        <article>
+            <h3>Open tasks</h3>
+            <p>{{ open_tasks }}</p>
+        </article>
+
+        <article>
+            <h3>Completed tasks</h3>
+            <p>{{ completed_tasks }}</p>
+        </article>
+
+        <article>
+            <h3>Overdue tasks</h3>
+            <p>{{ overdue_tasks }}</p>
+        </article>
+    </div>
+</section>
+
+<section>
+    <h2>Upcoming tasks</h2>
+
+    {% if upcoming_tasks %}
+    <ul>
+        {% for task in upcoming_tasks %}
+        <li>
+            <h3>{{ task.title }}</h3>
+
+            <p>
+                Subject:
+                <a href="{{ url_for('subject_detail', subject_id=task.subject.id) }}">
+                    {{ task.subject.name }}
+                </a>
+            </p>
+
+            <p>Due: {{ task.due_date.strftime('%d %B %Y') }}</p>
+            <p>Priority: {{ task.priority|title }}</p>
+
+            {% if task.due_date == today %}
+            <p>Due today</p>
+            {% endif %}
+
+            <a href="{{ url_for('edit_task', task_id=task.id) }}">
+                Edit task
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You have no upcoming open tasks.</p>
+
+    {% if total_subjects %}
+    <a href="{{ url_for('add_task') }}">Add a study task</a>
+    {% else %}
+    <a href="{{ url_for('add_subject') }}">Add your first subject</a>
+    {% endif %}
+    {% endif %}
+</section>
+
+<section>
+    <h2>Quick actions</h2>
+
     <p>
-        Your subjects and study tasks will appear here.
+        <a href="{{ url_for('add_subject') }}">Add subject</a>
+        <a href="{{ url_for('add_task') }}">Add task</a>
+        <a href="{{ url_for('tasks') }}">View all tasks</a>
     </p>
 </section>
 {% endblock %}

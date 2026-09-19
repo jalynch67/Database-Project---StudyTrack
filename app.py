@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import date, datetime
 
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, request, url_for
@@ -23,8 +23,32 @@ db.init_app(app)
 
 @app.route("/")
 def index():
-    """Display the StudyTrack homepage."""
-    return render_template("index.html")
+    """Display dashboard statistics and upcoming study tasks."""
+    today = date.today()
+
+    total_subjects = Subject.query.count()
+    total_tasks = StudyTask.query.count()
+    open_tasks = StudyTask.query.filter_by(is_complete=False).count()
+    completed_tasks = StudyTask.query.filter_by(is_complete=True).count()
+    overdue_tasks = StudyTask.query.filter(
+        StudyTask.is_complete.is_(False),
+        StudyTask.due_date < today,
+    ).count()
+    upcoming_tasks = StudyTask.query.filter(
+        StudyTask.is_complete.is_(False),
+        StudyTask.due_date >= today,
+    ).order_by(StudyTask.due_date).limit(5).all()
+
+    return render_template(
+        "index.html",
+        total_subjects=total_subjects,
+        total_tasks=total_tasks,
+        open_tasks=open_tasks,
+        completed_tasks=completed_tasks,
+        overdue_tasks=overdue_tasks,
+        upcoming_tasks=upcoming_tasks,
+        today=today,
+    )
 
 
 @app.route("/subjects")
@@ -307,4 +331,3 @@ def about():
 
 if __name__ == "__main__":
     app.run(debug=True)
- 
