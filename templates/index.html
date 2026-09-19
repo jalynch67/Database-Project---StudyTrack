@@ -3,119 +3,175 @@
 {% block title %}Dashboard | StudyTrack{% endblock %}
 
 {% block content %}
-<section class="dashboard-intro">
-    <div>
-        <h1>Plan your study time</h1>
+{% if total_tasks > 0 %}
+    {% set progress = (completed_tasks * 100 / total_tasks)|round|int %}
+{% else %}
+    {% set progress = 0 %}
+{% endif %}
+
+<section class="dashboard-hero">
+    <div class="hero-copy">
+        <p class="hero-kicker">Your study dashboard</p>
+        <h1>Plan your study time with a clear head.</h1>
         <p>
-            Keep track of your subjects, study tasks, priorities, and deadlines.
+            Keep subjects, deadlines and priorities together, then take your
+            workload one task at a time.
         </p>
+
+        <div class="dashboard-actions">
+            <a class="button button-primary" href="{{ url_for('add_task') }}">Add task</a>
+            <a class="button button-light" href="{{ url_for('add_subject') }}">Add subject</a>
+        </div>
     </div>
 
-    <div class="dashboard-actions">
-        <a class="button button-primary" href="{{ url_for('add_task') }}">
-            Add task
-        </a>
-        <a class="button button-outline" href="{{ url_for('add_subject') }}">
-            Add subject
-        </a>
+    <div class="hero-visual" aria-hidden="true">
+        <span class="hero-shape hero-shape-one"></span>
+        <span class="hero-shape hero-shape-two"></span>
+        <span class="hero-shape hero-shape-three"></span>
+        <span class="hero-book"></span>
     </div>
+
+    <aside class="today-card">
+        <div>
+            <p class="today-label">Study progress</p>
+            <h2>{{ completed_tasks }} of {{ total_tasks }}</h2>
+            <p>tasks completed</p>
+        </div>
+
+        <div class="progress-ring" style="--progress: {{ progress }};">
+            <span>{{ progress }}%</span>
+        </div>
+
+        {% if total_tasks == 0 %}
+            <p class="today-note">Add a task to begin your plan.</p>
+        {% elif progress == 100 %}
+            <p class="today-note">Everything is complete. Nice work.</p>
+        {% else %}
+            <p class="today-note">Small steps still move your studies forward.</p>
+        {% endif %}
+    </aside>
 </section>
 
-<section>
-    <div class="section-heading">
-        <h2>Your study overview</h2>
+<section class="dashboard-section overview-section">
+    <div class="section-heading section-heading-row">
+        <div>
+            <p class="section-kicker">At a glance</p>
+            <h2>Your study overview</h2>
+        </div>
     </div>
 
     <div class="stats-grid">
-        <article class="stat-card">
-            <p class="stat-value">{{ total_subjects }}</p>
-            <p class="stat-label">Subjects</p>
-            <a href="{{ url_for('subjects') }}">View subjects</a>
+        <article class="stat-card stat-subjects">
+            <span class="stat-icon" aria-hidden="true">B</span>
+            <div>
+                <p class="stat-value">{{ total_subjects }}</p>
+                <p class="stat-label">Subjects</p>
+                <a href="{{ url_for('subjects') }}">View subjects</a>
+            </div>
         </article>
 
-        <article class="stat-card">
-            <p class="stat-value">{{ total_tasks }}</p>
-            <p class="stat-label">Total tasks</p>
-            <a href="{{ url_for('tasks', status='all') }}">View all</a>
+        <article class="stat-card stat-total">
+            <span class="stat-icon" aria-hidden="true">T</span>
+            <div>
+                <p class="stat-value">{{ total_tasks }}</p>
+                <p class="stat-label">Total tasks</p>
+                <a href="{{ url_for('tasks', status='all') }}">View all</a>
+            </div>
         </article>
 
-        <article class="stat-card">
-            <p class="stat-value">{{ open_tasks }}</p>
-            <p class="stat-label">Open tasks</p>
-            <a href="{{ url_for('tasks', status='open') }}">View open</a>
+        <article class="stat-card stat-open">
+            <span class="stat-icon" aria-hidden="true">O</span>
+            <div>
+                <p class="stat-value">{{ open_tasks }}</p>
+                <p class="stat-label">Open tasks</p>
+                <a href="{{ url_for('tasks', status='open') }}">View open</a>
+            </div>
         </article>
 
-        <article class="stat-card">
-            <p class="stat-value">{{ completed_tasks }}</p>
-            <p class="stat-label">Completed</p>
-            <a href="{{ url_for('tasks', status='completed') }}">View completed</a>
+        <article class="stat-card stat-complete">
+            <span class="stat-icon" aria-hidden="true">C</span>
+            <div>
+                <p class="stat-value">{{ completed_tasks }}</p>
+                <p class="stat-label">Completed</p>
+                <a href="{{ url_for('tasks', status='completed') }}">View completed</a>
+            </div>
         </article>
 
-        <article class="stat-card">
-            <p class="stat-value">{{ overdue_tasks }}</p>
-            <p class="stat-label">Overdue</p>
-            <a href="{{ url_for('tasks', status='open') }}">Review tasks</a>
+        <article class="stat-card stat-overdue">
+            <span class="stat-icon" aria-hidden="true">!</span>
+            <div>
+                <p class="stat-value">{{ overdue_tasks }}</p>
+                <p class="stat-label">Overdue</p>
+                <a href="{{ url_for('tasks', status='open') }}">Review tasks</a>
+            </div>
         </article>
     </div>
 </section>
 
-<section>
+<section class="dashboard-section upcoming-section">
     <div class="section-heading section-heading-row">
-        <h2>Upcoming tasks</h2>
-        <a href="{{ url_for('tasks', status='open') }}">View all open tasks</a>
+        <div>
+            <p class="section-kicker">Next up</p>
+            <h2>Upcoming tasks</h2>
+        </div>
+        <a class="section-link" href="{{ url_for('tasks', status='open') }}">View all open tasks</a>
     </div>
 
     {% if upcoming_tasks %}
-    <ul class="dashboard-task-list">
-        {% for task in upcoming_tasks %}
-        <li class="dashboard-task-item">
-            <div class="task-main">
-                <h3>{{ task.title }}</h3>
-                <p>
-                    <a href="{{ url_for('subject_detail', subject_id=task.subject.id) }}">
-                        {{ task.subject.name }}
-                    </a>
-                </p>
-            </div>
+        <ul class="dashboard-task-list">
+            {% for task in upcoming_tasks %}
+                <li class="dashboard-task-item">
+                    <span class="task-marker" aria-hidden="true"></span>
 
-            <div class="task-details">
-                <p>Due {{ task.due_date.strftime('%d %B %Y') }}</p>
-                <p>{{ task.priority|title }} priority</p>
+                    <div class="task-main">
+                        <h3>{{ task.title }}</h3>
+                        <p>
+                            <a href="{{ url_for('subject_detail', subject_id=task.subject.id) }}">
+                                {{ task.subject.name }}
+                            </a>
+                        </p>
+                    </div>
 
-                {% if task.due_date == today %}
-                <p class="due-today">Due today</p>
+                    <div class="task-details">
+                        <p class="task-date">Due {{ task.due_date.strftime('%d %B %Y') }}</p>
+                        <span class="priority priority-{{ task.priority }}">
+                            {{ task.priority|title }} priority
+                        </span>
+                        {% if task.due_date == today %}
+                            <span class="due-today">Due today</span>
+                        {% endif %}
+                    </div>
+
+                    <a class="task-edit-link" href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state dashboard-empty-state">
+            <img
+                src="{{ url_for('static', filename='images/studytrack-owl.png') }}"
+                alt=""
+                width="88"
+                height="88"
+            >
+            <div>
+                <h3>No upcoming open tasks</h3>
+                <p>Add a task when you are ready to plan your next study session.</p>
+                {% if total_subjects %}
+                    <a class="button button-primary" href="{{ url_for('add_task') }}">Add a study task</a>
+                {% else %}
+                    <a class="button button-primary" href="{{ url_for('add_subject') }}">Add your first subject</a>
                 {% endif %}
             </div>
-
-            <a href="{{ url_for('edit_task', task_id=task.id) }}">
-                Edit
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <div class="empty-state">
-        <h3>No upcoming open tasks</h3>
-        <p>
-            Add a task when you are ready to plan your next study session.
-        </p>
-
-        {% if total_subjects %}
-        <a class="button button-primary" href="{{ url_for('add_task') }}">
-            Add a study task
-        </a>
-        {% else %}
-        <a class="button button-primary" href="{{ url_for('add_subject') }}">
-            Add your first subject
-        </a>
-        {% endif %}
-    </div>
+        </div>
     {% endif %}
 </section>
 
-<section>
-    <div class="section-heading">
-        <h2>Quick actions</h2>
+<section class="dashboard-section quick-actions-section">
+    <div class="quick-actions-copy">
+        <p class="section-kicker">Ready when you are</p>
+        <h2>Keep your study plan moving</h2>
+        <p>Add something new or review the work already on your list.</p>
     </div>
 
     <div class="quick-actions">

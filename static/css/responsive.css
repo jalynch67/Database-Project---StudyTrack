@@ -1,87 +1,48 @@
+/* Tablet */
+
 body {
     overflow-wrap: break-word;
 }
 
-button,
-.button,
-.quick-actions a,
-.task-filters a {
-    min-height: 44px;
-}
-
-button,
-.button,
-.item-actions a,
-.quick-actions a,
-.task-filters a,
-.nav-links a {
-    touch-action: manipulation;
-}
-
-.page-container > section,
+.hero-copy,
+.today-card,
 .stat-card,
-.subject-item,
-.task-item,
-.subject-task-item,
-.dashboard-task-item {
+.dashboard-task-item,
+.task-main {
     min-width: 0;
 }
 
-.page-intro,
-.dashboard-intro,
-.subject-title-row,
-.section-heading-row {
-    min-width: 0;
-}
-
-.page-intro > div,
-.dashboard-intro > div,
-.subject-title-row > div,
-.section-heading-row > div,
-.subject-content,
-.task-main,
-.task-item-main {
-    min-width: 0;
-}
-
-.subject-content h2,
-.task-main h3,
-.task-item-main h2,
-.subject-name-line h1,
+.hero-copy h1,
 .dashboard-task-item h3 {
     overflow-wrap: anywhere;
 }
 
-.item-actions,
-.dashboard-actions,
-.form-actions,
-.confirmation-actions,
-.task-item-controls,
-.task-controls {
-    flex-wrap: wrap;
-}
-
-.message {
-    overflow-wrap: anywhere;
-}
-
-@media (max-width: 950px) {
-    .page-container {
-        width: min(100% - 40px, var(--content-width));
+@media (max-width: 960px) {
+    .dashboard-hero {
+        grid-template-columns: 1fr 250px;
     }
 
-    .dashboard-intro,
-    .page-intro,
-    .subject-title-row {
-        align-items: flex-start;
+    .stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .stat-card {
+        border-bottom: 1px solid var(--colour-border);
+    }
+
+    .stat-card:nth-child(3) {
+        border-right: 0;
+    }
+
+    .stat-card:nth-child(4),
+    .stat-card:nth-child(5) {
+        border-bottom: 0;
     }
 }
 
 @media (max-width: 760px) {
     .site-nav {
-        min-height: auto;
-        padding-top: 15px;
-        padding-bottom: 15px;
+        padding: 14px 0;
         align-items: flex-start;
         flex-direction: column;
         gap: 10px;
@@ -90,124 +51,86 @@ button,
     .nav-links {
         width: 100%;
         flex-wrap: wrap;
-        gap: 4px;
     }
 
-    .nav-links a {
-        min-height: 42px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .dashboard-hero {
+        grid-template-columns: 1fr;
     }
 
-    .page-container {
-        width: min(100% - 28px, var(--content-width));
-        padding-top: 24px;
-        padding-bottom: 36px;
+    .dashboard-task-item {
+        grid-template-columns: 6px minmax(0, 1fr) auto;
     }
 
-    .page-container > section {
-        margin-bottom: 18px;
-        padding: 20px;
+    .dashboard-task-item .task-details {
+        grid-column: 2 / -1;
     }
 
-    .dashboard-intro,
-    .page-intro,
-    .subject-title-row,
-    .section-heading-row {
-        align-items: stretch;
+    .quick-actions-section {
+        align-items: flex-start;
         flex-direction: column;
-        gap: 16px;
     }
 
-    .dashboard-actions,
-    .page-intro > .button,
-    .section-heading-row > .button {
-        width: 100%;
-    }
-
-    .dashboard-actions .button,
-    .page-intro > .button,
-    .section-heading-row > .button {
-        flex: 1;
-        text-align: center;
-    }
-
-    .subject-item {
-        align-items: flex-start;
-    }
-
-    .subject-colour {
-        margin-top: 2px;
-    }
-
-    .item-actions {
-        row-gap: 10px;
-    }
-
-    .task-item-controls,
-    .task-controls {
-        width: 100%;
-        align-items: flex-start;
-    }
-
-    .task-item-controls form,
-    .task-controls form,
-    .task-item-controls button,
-    .task-controls button {
-        width: 100%;
-    }
-
-    .form-page,
-    .confirmation-page,
-    .error-page {
-        max-width: none;
-    }
-
-    .site-footer {
-        padding-top: 18px;
-        padding-bottom: 18px;
+    .quick-actions {
+        justify-content: flex-start;
     }
 }
 
-@media (max-width: 480px) {
-    .nav-links {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+/* Mobile */
 
-    .nav-links a {
-        background: rgba(255, 255, 255, 0.06);
+@media (max-width: 600px) {
+    .page-container,
+    .site-nav {
+        width: min(100% - 24px, var(--content-width));
     }
 
     .page-container {
-        width: min(100% - 20px, var(--content-width));
-        padding-top: 18px;
-        padding-bottom: 28px;
+        padding-top: 20px;
+        padding-bottom: 36px;
     }
 
-    .page-container > section {
-        padding: 16px;
+    .nav-links {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
+    }
+
+    .nav-links a {
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 0;
+        border-radius: 7px;
+    }
+
+    .nav-links a.active {
+        background: rgba(168, 223, 202, 0.15);
     }
 
     h1 {
-        font-size: 1.55rem;
+        font-size: 2rem;
     }
 
-    h2 {
-        font-size: 1.25rem;
+    .dashboard-hero,
+    .dashboard-section,
+    .quick-actions-section,
+    .page-intro,
+    .subject-header,
+    .form-page,
+    .confirmation-page,
+    .about-intro,
+    .about-section,
+    .error-page {
+        padding: 20px;
+        border-radius: 10px;
     }
 
     .dashboard-actions,
-    .quick-actions,
-    .about-actions > div {
-        align-items: stretch;
+    .quick-actions {
+        width: 100%;
         flex-direction: column;
     }
 
     .dashboard-actions .button,
-    .quick-actions a,
-    .about-actions .button {
+    .quick-actions a {
         width: 100%;
         text-align: center;
     }
@@ -216,18 +139,35 @@ button,
         grid-template-columns: 1fr;
     }
 
-    .task-filters {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+    .stat-card,
+    .stat-card:nth-child(3),
+    .stat-card:nth-child(4),
+    .stat-card:nth-child(5) {
+        border-right: 0;
+        border-bottom: 1px solid var(--colour-border);
     }
 
-    .task-filters a {
-        padding-right: 6px;
-        padding-left: 6px;
-        font-size: 0.86rem;
+    .stat-card:last-child {
+        border-bottom: 0;
     }
 
-    .confirmation-details div {
-        padding-top: 12px;
-        padding-bottom: 12px;
+    .section-heading-row,
+    .page-intro {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .dashboard-task-item {
+        grid-template-columns: 6px minmax(0, 1fr);
+    }
+
+    .dashboard-task-item .task-details,
+    .task-edit-link {
+        grid-column: 2;
+    }
+
+    .dashboard-empty-state {
+        align-items: flex-start;
+        flex-direction: column;
     }
 }

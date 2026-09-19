@@ -1,50 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>{% block title %}StudyTrack{% endblock %}</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
 </head>
-
 <body>
     <header class="site-header">
         <nav class="site-nav" aria-label="Main navigation">
-            <a class="site-logo" href="{{ url_for('index') }}">StudyTrack</a>
+            <a class="site-brand" href="{{ url_for('index') }}">
+                <img
+                    class="site-logo"
+                    src="{{ url_for('static', filename='images/studytrack-owl.png') }}"
+                    alt=""
+                    width="46"
+                    height="46"
+                >
+                <span>
+                    <strong>StudyTrack</strong>
+                    <small>Study planner</small>
+                </span>
+            </a>
 
             <ul class="nav-links">
-                <li><a href="{{ url_for('index') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('subjects') }}">Subjects</a></li>
-                <li><a href="{{ url_for('tasks') }}">Tasks</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li>
+                    <a class="{% if request.endpoint == 'index' %}active{% endif %}"
+                       href="{{ url_for('index') }}">Dashboard</a>
+                </li>
+                <li>
+                    <a class="{% if request.endpoint in ['subjects', 'subject_detail', 'add_subject', 'edit_subject', 'delete_subject'] %}active{% endif %}"
+                       href="{{ url_for('subjects') }}">Subjects</a>
+                </li>
+                <li>
+                    <a class="{% if request.endpoint in ['tasks', 'add_task', 'edit_task', 'delete_task'] %}active{% endif %}"
+                       href="{{ url_for('tasks') }}">Tasks</a>
+                </li>
+                <li>
+                    <a class="{% if request.endpoint == 'about' %}active{% endif %}"
+                       href="{{ url_for('about') }}">About</a>
+                </li>
             </ul>
         </nav>
     </header>
 
     <main class="page-container">
         {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <section class="messages" aria-label="Notifications">
-            {% for category, message in messages %}
-            <p class="message message-{{ category }}">{{ message }}</p>
-            {% endfor %}
-        </section>
-        {% endif %}
+            {% if messages %}
+                <section class="messages" aria-label="Notifications">
+                    {% for category, message in messages %}
+                        <p class="message message-{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </section>
+            {% endif %}
         {% endwith %}
 
         {% block content %}{% endblock %}
     </main>
 
     <footer class="site-footer">
-        <p>&copy; 2026 StudyTrack</p>
+        <p>&copy; 2026 StudyTrack. Plan steadily and study with confidence.</p>
     </footer>
 </body>
-
 </html>
