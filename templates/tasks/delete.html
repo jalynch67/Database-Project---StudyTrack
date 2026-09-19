@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ task.title }} | StudyTrack{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Delete study task</h1>
+
+    <p>
+        Are you sure you want to delete <strong>{{ task.title }}</strong>?
+    </p>
+
+    <p>
+        This task belongs to {{ task.subject.name }}.
+    </p>
+
+    <p>
+        This action cannot be undone.
+    </p>
+
+    <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}">
+        <button type="submit">Delete task</button>
+        <a href="{{ url_for('tasks') }}">Cancel</a>
+    </form>
+</section>
+{% endblock %}

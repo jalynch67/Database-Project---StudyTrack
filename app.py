@@ -269,6 +269,21 @@ def edit_task(task_id):
     )
 
 
+@app.route("/tasks/<int:task_id>/delete", methods=["GET", "POST"])
+def delete_task(task_id):
+    """Display a confirmation page and delete a study task."""
+    task = StudyTask.query.get_or_404(task_id)
+
+    if request.method == "POST":
+        db.session.delete(task)
+        db.session.commit()
+
+        flash("Study task deleted successfully.", "success")
+        return redirect(url_for("tasks"))
+
+    return render_template("tasks/delete.html", task=task)
+
+
 @app.route("/about")
 def about():
     """Display information about StudyTrack."""
