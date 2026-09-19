@@ -268,3 +268,44 @@ body {
         width: 100%;
     }
 }
+
+
+/* About and error pages */
+
+@media (max-width: 700px) {
+    .about-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .about-intro-owl {
+        width: 100px;
+        height: 100px;
+        justify-self: start;
+    }
+
+    .about-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+    .feature-list {
+        grid-template-columns: 1fr;
+    }
+
+    .about-action-links {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .about-action-links .button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .error-owl {
+        width: 90px;
+        height: 90px;
+    }
+}

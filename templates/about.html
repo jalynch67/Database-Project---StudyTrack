@@ -4,20 +4,35 @@
 
 {% block content %}
 <section class="about-intro">
-    <h1>About StudyTrack</h1>
-    <p>
-        StudyTrack is a simple study planner for organising subjects, tasks,
-        deadlines, priorities, and progress in one place.
-    </p>
+    <div>
+        <p class="section-kicker">About the planner</p>
+        <h1>Study planning made simpler</h1>
+        <p>
+            StudyTrack brings subjects, tasks, deadlines and progress together
+            in one place so study time is easier to organise.
+        </p>
+    </div>
+
+    <img
+        class="about-intro-owl"
+        src="{{ url_for('static', filename='images/studytrack-owl.png') }}"
+        alt=""
+        width="130"
+        height="130"
+    >
 </section>
 
 <section class="about-section">
-    <h2>What you can do</h2>
+    <div class="about-section-heading">
+        <p class="section-kicker">What you can do</p>
+        <h2>Keep your studies organised</h2>
+        <p>Use a few simple tools to stay aware of your workload.</p>
+    </div>
 
     <ul class="feature-list">
         <li>
             <strong>Organise subjects</strong>
-            <span>Create, update, review, and delete the subjects you study.</span>
+            <span>Create, update, review and delete the subjects you study.</span>
         </li>
         <li>
             <strong>Plan study tasks</strong>
@@ -29,16 +44,19 @@
         </li>
         <li>
             <strong>Review your workload</strong>
-            <span>Use the dashboard and task filters to focus on upcoming work.</span>
+            <span>Use the Dashboard and Task filters to focus on upcoming work.</span>
         </li>
     </ul>
 </section>
 
 <section class="about-section about-actions">
-    <h2>Start planning</h2>
-    <p>Create a subject or review your current study tasks.</p>
-
     <div>
+        <p class="section-kicker">Get started</p>
+        <h2>Build your study plan</h2>
+        <p>Create a subject or review the tasks already on your list.</p>
+    </div>
+
+    <div class="about-action-links">
         <a class="button button-primary" href="{{ url_for('add_subject') }}">Add subject</a>
         <a class="button button-outline" href="{{ url_for('tasks') }}">View tasks</a>
     </div>

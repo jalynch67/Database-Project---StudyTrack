@@ -4,14 +4,19 @@
 
 {% block content %}
 <section class="error-page">
+    <img
+        class="error-owl"
+        src="{{ url_for('static', filename='images/studytrack-owl.png') }}"
+        alt=""
+        width="110"
+        height="110"
+    >
     <p class="error-code">404</p>
     <h1>Page not found</h1>
     <p>
         The page or record you requested could not be found. It may have been
         moved, deleted, or the address may be incorrect.
     </p>
-    <a class="button button-primary" href="{{ url_for('index') }}">
-        Return to the Dashboard
-    </a>
+    <a class="button button-primary" href="{{ url_for('index') }}">Return to the Dashboard</a>
 </section>
 {% endblock %}

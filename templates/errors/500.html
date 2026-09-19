@@ -4,14 +4,19 @@
 
 {% block content %}
 <section class="error-page">
+    <img
+        class="error-owl"
+        src="{{ url_for('static', filename='images/studytrack-owl.png') }}"
+        alt=""
+        width="110"
+        height="110"
+    >
     <p class="error-code">500</p>
     <h1>Something went wrong</h1>
     <p>
         StudyTrack could not complete your request because of an unexpected
         server error. Please return to the Dashboard and try again.
     </p>
-    <a class="button button-primary" href="{{ url_for('index') }}">
-        Return to the Dashboard
-    </a>
+    <a class="button button-primary" href="{{ url_for('index') }}">Return to the Dashboard</a>
 </section>
 {% endblock %}
