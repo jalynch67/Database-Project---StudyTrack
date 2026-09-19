@@ -7,13 +7,15 @@
 .confirmation-page > .back-link {
     display: inline-block;
     margin-bottom: 18px;
-    font-size: 0.9rem;
-    font-weight: 700;
 }
 
 .warning-panel {
-    padding-left: 24px;
+    padding: 26px;
+    background: var(--colour-surface);
+    border: 1px solid #dfc3c3;
     border-left: 5px solid var(--colour-error);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(37, 51, 45, 0.05);
 }
 
 .warning-label {
@@ -35,7 +37,8 @@
 .warning-detail {
     padding: 12px 14px;
     background: var(--colour-error-background);
-    border: 1px solid #e3b1b1;
+    border: 1px solid #dfb8b8;
+    border-radius: 6px;
     color: var(--colour-error);
     font-weight: 700;
 }
@@ -81,8 +84,13 @@
 }
 
 .button-danger:hover {
-    background: #812222;
-    border-color: #812222;
+    background: #7f3535;
+    border-color: #7f3535;
+}
+
+.about-intro {
+    background: linear-gradient(135deg, #fffdf9 0%, #f4efe7 100%) !important;
+    border-left: 5px solid var(--colour-accent) !important;
 }
 
 .about-intro p {
@@ -99,16 +107,19 @@
 .feature-list {
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--colour-border);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
     list-style: none;
 }
 
 .feature-list li {
-    padding: 16px 0;
+    padding: 18px;
     display: grid;
-    grid-template-columns: minmax(150px, 0.45fr) minmax(0, 1fr);
-    gap: 24px;
-    border-bottom: 1px solid var(--colour-border);
+    gap: 5px;
+    background: var(--colour-surface-muted);
+    border: 1px solid var(--colour-border);
+    border-radius: 8px;
 }
 
 .feature-list strong {
@@ -140,9 +151,9 @@
 
 .error-code {
     margin-bottom: 8px;
-    color: var(--colour-primary);
+    color: var(--colour-accent);
     font-size: 2.5rem;
-    font-weight: 700;
+    font-weight: 750;
     line-height: 1;
 }
 
@@ -160,12 +171,15 @@
 
 @media (max-width: 700px) {
     .warning-panel {
-        padding-left: 18px;
+        padding: 20px;
     }
 
     .confirmation-details div,
-    .feature-list li {
+    .feature-list {
         grid-template-columns: 1fr;
+    }
+
+    .confirmation-details div {
         gap: 4px;
     }
 

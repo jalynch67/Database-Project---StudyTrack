@@ -11,8 +11,6 @@
 .form-heading .back-link {
     display: inline-block;
     margin-bottom: 16px;
-    font-size: 0.9rem;
-    font-weight: 700;
 }
 
 .form-heading h1 {
@@ -25,8 +23,13 @@
 }
 
 .study-form {
+    padding: 26px;
     display: grid;
     gap: 22px;
+    background: #fffdf9;
+    border: 1px solid var(--colour-border);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(37, 51, 45, 0.05);
 }
 
 .form-field {
@@ -45,8 +48,9 @@
     width: 100%;
     min-height: 44px;
     padding: 10px 12px;
-    background: #ffffff;
-    border: 1px solid #aeb7c4;
+    background: #fffdf9;
+    border: 1px solid #cfcac0;
+    border-radius: 6px;
     color: var(--colour-heading);
 }
 
@@ -58,13 +62,17 @@
 .form-field input:hover,
 .form-field textarea:hover,
 .form-field select:hover {
-    border-color: #77869a;
+    background: #fdfaf5;
+    border-color: #a9a398;
 }
 
 .form-field input:focus,
 .form-field textarea:focus,
 .form-field select:focus {
+    background: #ffffff;
     border-color: var(--colour-primary);
+    box-shadow: 0 0 0 3px rgba(72, 107, 92, 0.13);
+    outline: none;
 }
 
 .field-help {
@@ -84,9 +92,12 @@
 }
 
 .form-checkbox {
+    padding: 12px 14px;
     display: flex;
     align-items: center;
     gap: 10px;
+    background: var(--colour-surface-muted);
+    border-radius: 6px;
 }
 
 .form-checkbox input {
@@ -116,6 +127,10 @@
 }
 
 @media (max-width: 700px) {
+    .study-form {
+        padding: 20px;
+    }
+
     .form-row {
         grid-template-columns: 1fr;
     }
