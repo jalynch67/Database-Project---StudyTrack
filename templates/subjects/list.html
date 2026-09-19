@@ -3,59 +3,64 @@
 {% block title %}Subjects | StudyTrack{% endblock %}
 
 {% block content %}
-<section>
-    <h1>Your subjects</h1>
+<section class="page-intro">
+    <div>
+        <h1>Your subjects</h1>
+        <p>
+            View and manage the subjects you are currently studying.
+        </p>
+    </div>
 
-    <p>
-        View and manage the subjects you are currently studying.
-    </p>
-
-    <a href="{{ url_for('add_subject') }}">Add subject</a>
+    <a class="button button-primary" href="{{ url_for('add_subject') }}">
+        Add subject
+    </a>
 </section>
 
 <section>
     {% if subjects %}
-    <ul>
+    <ul class="subject-list">
         {% for subject in subjects %}
-        <li>
-            <h2>
+        <li class="subject-item">
+            <span class="subject-colour subject-colour-{{ subject.colour }}" aria-hidden="true"></span>
+
+            <div class="subject-content">
+                <h2>
+                    <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">
+                        {{ subject.name }}
+                    </a>
+                </h2>
+
+                {% if subject.description %}
+                <p>{{ subject.description }}</p>
+                {% else %}
+                <p class="muted-text">No description has been added.</p>
+                {% endif %}
+            </div>
+
+            <div class="item-actions">
                 <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">
-                    {{ subject.name }}
+                    View
                 </a>
-            </h2>
-
-            {% if subject.description %}
-            <p>{{ subject.description }}</p>
-            {% else %}
-            <p>No description has been added.</p>
-            {% endif %}
-
-            <p>Colour: {{ subject.colour }}</p>
-
-            <p>
-                <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">
-                    View subject
-                </a>
-
                 <a href="{{ url_for('edit_subject', subject_id=subject.id) }}">
-                    Edit subject
+                    Edit
                 </a>
-
-                <a href="{{ url_for('delete_subject', subject_id=subject.id) }}">
-                    Delete subject
+                <a class="danger-link" href="{{ url_for('delete_subject', subject_id=subject.id) }}">
+                    Delete
                 </a>
-            </p>
+            </div>
         </li>
         {% endfor %}
     </ul>
     {% else %}
-    <h2>No subjects yet</h2>
-
-    <p>
-        Add your first subject to start organising your study tasks.
-    </p>
-
-    <a href="{{ url_for('add_subject') }}">Add your first subject</a>
+    <div class="empty-state">
+        <h2>No subjects yet</h2>
+        <p>
+            Add your first subject to start organising your study tasks.
+        </p>
+        <a class="button button-primary" href="{{ url_for('add_subject') }}">
+            Add your first subject
+        </a>
+    </div>
     {% endif %}
 </section>
 {% endblock %}
