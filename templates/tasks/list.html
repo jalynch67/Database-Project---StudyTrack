@@ -15,42 +15,46 @@
 
 <section>
     {% if tasks %}
-    <ul>
-        {% for task in tasks %}
-        <li>
-            <h2>{{ task.title }}</h2>
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <h2>{{ task.title }}</h2>
 
-            {% if task.description %}
-            <p>{{ task.description }}</p>
-            {% else %}
-            <p>No description has been added.</p>
-            {% endif %}
+                    {% if task.description %}
+                        <p>{{ task.description }}</p>
+                    {% else %}
+                        <p>No description has been added.</p>
+                    {% endif %}
 
-            <p>
-                Subject:
-                <a href="{{ url_for('subject_detail', subject_id=task.subject.id) }}">
-                    {{ task.subject.name }}
-                </a>
-            </p>
-            <p>Due: {{ task.due_date.strftime('%d %B %Y') }}</p>
-            <p>Priority: {{ task.priority|title }}</p>
+                    <p>
+                        Subject:
+                        <a href="{{ url_for('subject_detail', subject_id=task.subject.id) }}">
+                            {{ task.subject.name }}
+                        </a>
+                    </p>
+                    <p>Due: {{ task.due_date.strftime('%d %B %Y') }}</p>
+                    <p>Priority: {{ task.priority|title }}</p>
 
-            {% if task.is_complete %}
-            <p>Status: Complete</p>
-            {% else %}
-            <p>Status: Open</p>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
+                    {% if task.is_complete %}
+                        <p>Status: Complete</p>
+                    {% else %}
+                        <p>Status: Open</p>
+                    {% endif %}
+
+                    <a href="{{ url_for('edit_task', task_id=task.id) }}">
+                        Edit task
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
-    <h2>No study tasks yet</h2>
+        <h2>No study tasks yet</h2>
 
-    <p>
-        Add a study task to start tracking your work and deadlines.
-    </p>
+        <p>
+            Add a study task to start tracking your work and deadlines.
+        </p>
 
-    <a href="{{ url_for('add_task') }}">Add your first task</a>
+        <a href="{{ url_for('add_task') }}">Add your first task</a>
     {% endif %}
 </section>
 {% endblock %}

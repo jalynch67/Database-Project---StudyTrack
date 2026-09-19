@@ -195,6 +195,80 @@ def add_task():
     return render_template("tasks/add.html", subjects=all_subjects)
 
 
+@app.route("/tasks/<int:task_id>/edit", methods=["GET", "POST"])
+def edit_task(task_id):
+    """Display the edit form and update a study task."""
+    task = StudyTask.query.get_or_404(task_id)
+    all_subjects = Subject.query.order_by(Subject.name).all()
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        description = request.form.get("description", "").strip()
+        due_date_text = request.form.get("due_date", "")
+        priority = request.form.get("priority", "medium")
+        subject_id = request.form.get("subject_id", type=int)
+        allowed_priorities = ["low", "medium", "high"]
+
+        if not title:
+            flash("Please enter a task title.", "error")
+            return render_template(
+                "tasks/edit.html",
+                task=task,
+                subjects=all_subjects,
+            )
+
+        if len(title) > 150:
+            flash("The task title must be 150 characters or fewer.", "error")
+            return render_template(
+                "tasks/edit.html",
+                task=task,
+                subjects=all_subjects,
+            )
+
+        try:
+            due_date = datetime.strptime(due_date_text, "%Y-%m-%d").date()
+        except ValueError:
+            flash("Please enter a valid due date.", "error")
+            return render_template(
+                "tasks/edit.html",
+                task=task,
+                subjects=all_subjects,
+            )
+
+        if priority not in allowed_priorities:
+            flash("Please select a valid priority.", "error")
+            return render_template(
+                "tasks/edit.html",
+                task=task,
+                subjects=all_subjects,
+            )
+
+        subject = db.session.get(Subject, subject_id)
+        if subject is None:
+            flash("Please select a valid subject.", "error")
+            return render_template(
+                "tasks/edit.html",
+                task=task,
+                subjects=all_subjects,
+            )
+
+        task.title = title
+        task.description = description or None
+        task.due_date = due_date
+        task.priority = priority
+        task.subject_id = subject.id
+        db.session.commit()
+
+        flash("Study task updated successfully.", "success")
+        return redirect(url_for("tasks"))
+
+    return render_template(
+        "tasks/edit.html",
+        task=task,
+        subjects=all_subjects,
+    )
+
+
 @app.route("/about")
 def about():
     """Display information about StudyTrack."""

@@ -57,6 +57,10 @@
             {% else %}
             <p>Status: Open</p>
             {% endif %}
+
+            <a href="{{ url_for('edit_task', task_id=task.id) }}">
+                Edit task
+            </a>
         </li>
         {% endfor %}
     </ul>
