@@ -344,5 +344,18 @@ def about():
     return render_template("about.html")
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    """Display a custom page when a route or record is not found."""
+    return render_template("errors/404.html"), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    """Display a custom page when an unexpected server error occurs."""
+    db.session.rollback()
+    return render_template("errors/500.html"), 500
+
+
 if __name__ == "__main__":
     app.run(debug=True)
