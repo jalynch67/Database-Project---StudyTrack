@@ -6,14 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}StudyTrack{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="{{ url_for('index') }}">StudyTrack</a>
+    <header class="site-header">
+        <nav class="site-nav" aria-label="Main navigation">
+            <a class="site-logo" href="{{ url_for('index') }}">
+                StudyTrack
+            </a>
 
-            <ul>
+            <ul class="nav-links">
                 <li>
                     <a href="{{ url_for('index') }}">Dashboard</a>
                 </li>
@@ -30,10 +34,10 @@
         </nav>
     </header>
 
-    <main>
+    <main class="page-container">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        <section>
+        <section class="messages" aria-label="Notifications">
             {% for category, message in messages %}
             <p class="message message-{{ category }}">
                 {{ message }}
@@ -47,7 +51,7 @@
         {% endblock %}
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <p>&copy; 2026 StudyTrack</p>
     </footer>
 </body>
