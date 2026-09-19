@@ -3,40 +3,44 @@
 {% block title %}Add Subject | StudyTrack{% endblock %}
 
 {% block content %}
-<section>
-    <h1>Add a subject</h1>
+<section class="form-page">
+    <div class="form-heading">
+        <a class="back-link" href="{{ url_for('subjects') }}">Back to subjects</a>
+        <h1>Add subject</h1>
+        <p>Create a subject before adding study tasks for it.</p>
+    </div>
 
-    <p>
-        Enter the details for the subject you want to study.
-    </p>
-</section>
-
-<section>
-    <form method="POST" action="{{ url_for('add_subject') }}">
-        <div>
+    <form class="study-form" method="POST" action="{{ url_for('add_subject') }}">
+        <div class="form-field">
             <label for="name">Subject name</label>
-            <input type="text" id="name" name="name" maxlength="100" value="{{ request.form.get('name', '') }}"
+            <input id="name" name="name" type="text" value="{{ request.form.get('name', '') }}" maxlength="100"
                 required>
+            <p class="field-help">Use a short name that is easy to recognise.</p>
         </div>
 
-        <div>
+        <div class="form-field">
             <label for="description">Description</label>
-            <textarea id="description" name="description" rows="5">{{ request.form.get('description', '') }}</textarea>
+            <textarea id="description" name="description" rows="5"
+                maxlength="500">{{ request.form.get('description', '') }}</textarea>
+            <p class="field-help">Optional. Add a short summary of the subject.</p>
         </div>
 
-        <div>
+        <div class="form-field form-field-small">
             <label for="colour">Colour</label>
             <select id="colour" name="colour" required>
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-                <option value="purple">Purple</option>
-                <option value="orange">Orange</option>
-                <option value="red">Red</option>
+                {% set selected_colour = request.form.get('colour', 'blue') %}
+                <option value="blue" {% if selected_colour=='blue' %}selected{% endif %}>Blue</option>
+                <option value="green" {% if selected_colour=='green' %}selected{% endif %}>Green</option>
+                <option value="purple" {% if selected_colour=='purple' %}selected{% endif %}>Purple</option>
+                <option value="orange" {% if selected_colour=='orange' %}selected{% endif %}>Orange</option>
+                <option value="red" {% if selected_colour=='red' %}selected{% endif %}>Red</option>
             </select>
         </div>
 
-        <button type="submit">Add subject</button>
-        <a href="{{ url_for('subjects') }}">Cancel</a>
+        <div class="form-actions">
+            <button type="submit">Add subject</button>
+            <a href="{{ url_for('subjects') }}">Cancel</a>
+        </div>
     </form>
 </section>
 {% endblock %}

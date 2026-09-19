@@ -1,0 +1,137 @@
+.form-page {
+    max-width: 780px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.form-heading {
+    margin-bottom: 28px;
+}
+
+.form-heading .back-link {
+    display: inline-block;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.form-heading h1 {
+    margin-bottom: 8px;
+}
+
+.form-heading p {
+    margin-bottom: 0;
+    color: var(--colour-muted);
+}
+
+.study-form {
+    display: grid;
+    gap: 22px;
+}
+
+.form-field {
+    display: grid;
+    gap: 7px;
+}
+
+.form-field label {
+    color: var(--colour-heading);
+    font-weight: 700;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    background: #ffffff;
+    border: 1px solid #aeb7c4;
+    color: var(--colour-heading);
+}
+
+.form-field textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-field input:hover,
+.form-field textarea:hover,
+.form-field select:hover {
+    border-color: #77869a;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+    border-color: var(--colour-primary);
+}
+
+.field-help {
+    margin-bottom: 0;
+    color: var(--colour-muted);
+    font-size: 0.86rem;
+}
+
+.form-field-small {
+    max-width: 280px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-checkbox input {
+    width: 18px;
+    min-height: 18px;
+    margin: 0;
+}
+
+.form-checkbox label {
+    font-weight: 600;
+}
+
+.form-actions {
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    border-top: 1px solid var(--colour-border);
+}
+
+.form-actions button {
+    min-width: 130px;
+}
+
+.form-actions a {
+    font-weight: 700;
+}
+
+@media (max-width: 700px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-field-small {
+        max-width: none;
+    }
+
+    .form-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .form-actions button,
+    .form-actions a {
+        width: 100%;
+        text-align: center;
+    }
+}

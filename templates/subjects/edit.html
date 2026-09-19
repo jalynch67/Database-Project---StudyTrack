@@ -3,54 +3,45 @@
 {% block title %}Edit {{ subject.name }} | StudyTrack{% endblock %}
 
 {% block content %}
-<section>
-    <h1>Edit subject</h1>
+<section class="form-page">
+    <div class="form-heading">
+        <a class="back-link" href="{{ url_for('subject_detail', subject_id=subject.id) }}">
+            Back to subject
+        </a>
+        <h1>Edit subject</h1>
+        <p>Update the name, description, or colour for this subject.</p>
+    </div>
 
-    <p>
-        Update the details for {{ subject.name }}.
-    </p>
-</section>
-
-<section>
-    <form method="POST" action="{{ url_for('edit_subject', subject_id=subject.id) }}">
-        <div>
+    <form class="study-form" method="POST" action="{{ url_for('edit_subject', subject_id=subject.id) }}">
+        <div class="form-field">
             <label for="name">Subject name</label>
-            <input type="text" id="name" name="name" maxlength="100"
-                value="{{ request.form.get('name', subject.name) }}" required>
+            <input id="name" name="name" type="text" value="{{ request.form.get('name', subject.name) }}"
+                maxlength="100" required>
         </div>
 
-        <div>
+        <div class="form-field">
             <label for="description">Description</label>
-            <textarea id="description" name="description"
-                rows="5">{{ request.form.get('description', subject.description or '') }}</textarea>
+            <textarea id="description" name="description" rows="5"
+                maxlength="500">{{ request.form.get('description', subject.description or '') }}</textarea>
+            <p class="field-help">Optional. Add a short summary of the subject.</p>
         </div>
 
-        <div>
+        <div class="form-field form-field-small">
             <label for="colour">Colour</label>
             {% set selected_colour = request.form.get('colour', subject.colour) %}
             <select id="colour" name="colour" required>
-                <option value="blue" {% if selected_colour=='blue' %}selected{% endif %}>
-                    Blue
-                </option>
-                <option value="green" {% if selected_colour=='green' %}selected{% endif %}>
-                    Green
-                </option>
-                <option value="purple" {% if selected_colour=='purple' %}selected{% endif %}>
-                    Purple
-                </option>
-                <option value="orange" {% if selected_colour=='orange' %}selected{% endif %}>
-                    Orange
-                </option>
-                <option value="red" {% if selected_colour=='red' %}selected{% endif %}>
-                    Red
-                </option>
+                <option value="blue" {% if selected_colour=='blue' %}selected{% endif %}>Blue</option>
+                <option value="green" {% if selected_colour=='green' %}selected{% endif %}>Green</option>
+                <option value="purple" {% if selected_colour=='purple' %}selected{% endif %}>Purple</option>
+                <option value="orange" {% if selected_colour=='orange' %}selected{% endif %}>Orange</option>
+                <option value="red" {% if selected_colour=='red' %}selected{% endif %}>Red</option>
             </select>
         </div>
 
-        <button type="submit">Save changes</button>
-        <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">
-            Cancel
-        </a>
+        <div class="form-actions">
+            <button type="submit">Save changes</button>
+            <a href="{{ url_for('subject_detail', subject_id=subject.id) }}">Cancel</a>
+        </div>
     </form>
 </section>
 {% endblock %}
