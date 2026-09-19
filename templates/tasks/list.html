@@ -41,6 +41,14 @@
             <p>Status: Open</p>
             {% endif %}
 
+            <form method="POST" action="{{ url_for('toggle_task', task_id=task.id) }}">
+                {% if task.is_complete %}
+                <button type="submit">Mark as open</button>
+                {% else %}
+                <button type="submit">Mark as complete</button>
+                {% endif %}
+            </form>
+
             <p>
                 <a href="{{ url_for('edit_task', task_id=task.id) }}">
                     Edit task

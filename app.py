@@ -269,6 +269,21 @@ def edit_task(task_id):
     )
 
 
+@app.route("/tasks/<int:task_id>/toggle", methods=["POST"])
+def toggle_task(task_id):
+    """Change a study task between open and complete."""
+    task = StudyTask.query.get_or_404(task_id)
+    task.is_complete = not task.is_complete
+    db.session.commit()
+
+    if task.is_complete:
+        flash("Study task marked as complete.", "success")
+    else:
+        flash("Study task returned to open.", "success")
+
+    return redirect(request.referrer or url_for("tasks"))
+
+
 @app.route("/tasks/<int:task_id>/delete", methods=["GET", "POST"])
 def delete_task(task_id):
     """Display a confirmation page and delete a study task."""
@@ -292,3 +307,4 @@ def about():
 
 if __name__ == "__main__":
     app.run(debug=True)
+ 
