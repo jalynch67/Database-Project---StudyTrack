@@ -6,6 +6,7 @@
 <section class="form-page">
     <div class="form-heading">
         <a class="back-link" href="{{ url_for('tasks') }}">Back to tasks</a>
+        <p class="section-kicker">Plan your work</p>
         <h1>Add study task</h1>
         <p>Add a task, choose its subject, and set a deadline and priority.</p>
     </div>
@@ -13,14 +14,12 @@
     <form class="study-form" method="POST" action="{{ url_for('add_task') }}">
         <div class="form-field">
             <label for="title">Task title</label>
-            <input id="title" name="title" type="text" value="{{ request.form.get('title', '') }}" maxlength="150"
-                required>
+            <input id="title" name="title" type="text" value="{{ request.form.get('title', '') }}" maxlength="150" required>
         </div>
 
         <div class="form-field">
             <label for="description">Description</label>
-            <textarea id="description" name="description" rows="5"
-                maxlength="1000">{{ request.form.get('description', '') }}</textarea>
+            <textarea id="description" name="description" rows="5" maxlength="1000">{{ request.form.get('description', '') }}</textarea>
             <p class="field-help">Optional. Add useful notes about the work.</p>
         </div>
 
@@ -31,18 +30,14 @@
                 <select id="subject_id" name="subject_id" required>
                     <option value="">Choose a subject</option>
                     {% for subject in subjects %}
-                    <option value="{{ subject.id }}" {% if selected_subject|string==subject.id|string %}selected{% endif
-                        %}>
-                        {{ subject.name }}
-                    </option>
+                        <option value="{{ subject.id }}" {% if selected_subject|string == subject.id|string %}selected{% endif %}>{{ subject.name }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <div class="form-field">
                 <label for="due_date">Due date</label>
-                <input id="due_date" name="due_date" type="date" value="{{ request.form.get('due_date', '') }}"
-                    required>
+                <input id="due_date" name="due_date" type="date" value="{{ request.form.get('due_date', '') }}" required>
             </div>
         </div>
 
@@ -50,9 +45,9 @@
             <label for="priority">Priority</label>
             {% set selected_priority = request.form.get('priority', 'medium') %}
             <select id="priority" name="priority" required>
-                <option value="low" {% if selected_priority=='low' %}selected{% endif %}>Low</option>
-                <option value="medium" {% if selected_priority=='medium' %}selected{% endif %}>Medium</option>
-                <option value="high" {% if selected_priority=='high' %}selected{% endif %}>High</option>
+                <option value="low" {% if selected_priority == 'low' %}selected{% endif %}>Low</option>
+                <option value="medium" {% if selected_priority == 'medium' %}selected{% endif %}>Medium</option>
+                <option value="high" {% if selected_priority == 'high' %}selected{% endif %}>High</option>
             </select>
         </div>
 

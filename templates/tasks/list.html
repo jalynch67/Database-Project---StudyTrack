@@ -5,95 +5,90 @@
 {% block content %}
 <section class="page-intro">
     <div>
+        <p class="section-kicker">Your workload</p>
         <h1>Your study tasks</h1>
-        <p>View your study tasks, deadlines, priorities, and progress.</p>
+        <p>Review deadlines, priorities and progress across all subjects.</p>
     </div>
-
-    <a class="button button-primary" href="{{ url_for('add_task') }}">
-        Add task
-    </a>
+    <a class="button button-primary" href="{{ url_for('add_task') }}">Add task</a>
 </section>
 
 <section class="task-filter-section">
     <nav class="task-filters" aria-label="Task filters">
         <a class="{% if current_status == 'all' %}active{% endif %}" href="{{ url_for('tasks', status='all') }}">All</a>
-        <a class="{% if current_status == 'open' %}active{% endif %}"
-            href="{{ url_for('tasks', status='open') }}">Open</a>
-        <a class="{% if current_status == 'completed' %}active{% endif %}"
-            href="{{ url_for('tasks', status='completed') }}">Completed</a>
+        <a class="{% if current_status == 'open' %}active{% endif %}" href="{{ url_for('tasks', status='open') }}">Open</a>
+        <a class="{% if current_status == 'completed' %}active{% endif %}" href="{{ url_for('tasks', status='completed') }}">Completed</a>
     </nav>
 </section>
 
-<section>
+<section class="task-list-section">
     {% if tasks %}
-    <ul class="task-list">
-        {% for task in tasks %}
-        <li class="task-item {% if task.is_complete %}task-complete{% endif %}">
-            <div class="task-item-main">
-                <h2>{{ task.title }}</h2>
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li class="task-item {% if task.is_complete %}task-complete{% endif %}">
+                    <div class="task-item-main">
+                        <h2>{{ task.title }}</h2>
 
-                {% if task.description %}
-                <p>{{ task.description }}</p>
-                {% else %}
-                <p class="muted-text">No description has been added.</p>
-                {% endif %}
+                        {% if task.description %}
+                            <p>{{ task.description }}</p>
+                        {% else %}
+                            <p>No description has been added.</p>
+                        {% endif %}
 
-                <p class="task-subject-link">
-                    Subject:
-                    <a href="{{ url_for('subject_detail', subject_id=task.subject.id) }}">
-                        {{ task.subject.name }}
-                    </a>
-                </p>
-            </div>
+                        <p class="task-subject-link">
+                            Subject:
+                            <a href="{{ url_for('subject_detail', subject_id=task.subject.id) }}">{{ task.subject.name }}</a>
+                        </p>
+                    </div>
 
-            <div class="task-item-details">
-                <p><span>Due</span>{{ task.due_date.strftime('%d %B %Y') }}</p>
-                <p><span>Priority</span>{{ task.priority|title }}</p>
-                <p>
-                    <span>Status</span>
-                    {% if task.is_complete %}Complete{% else %}Open{% endif %}
-                </p>
-            </div>
+                    <div class="task-item-details">
+                        <p><span class="detail-label">Due</span>{{ task.due_date.strftime('%d %B %Y') }}</p>
+                        <p>
+                            <span class="detail-label">Priority</span>
+                            <span class="priority priority-{{ task.priority }}">{{ task.priority|title }}</span>
+                        </p>
+                        <p>
+                            <span class="detail-label">Status</span>
+                            {% if task.is_complete %}
+                                <span class="task-status task-status-complete">Complete</span>
+                            {% else %}
+                                <span class="task-status task-status-open">Open</span>
+                            {% endif %}
+                        </p>
+                    </div>
 
-            <div class="task-item-controls">
-                <form method="POST" action="{{ url_for('toggle_task', task_id=task.id) }}">
-                    {% if task.is_complete %}
-                    <button class="button-small button-muted" type="submit">
-                        Mark as open
-                    </button>
-                    {% else %}
-                    <button class="button-small" type="submit">
-                        Mark complete
-                    </button>
-                    {% endif %}
-                </form>
+                    <div class="task-item-controls">
+                        <form method="POST" action="{{ url_for('toggle_task', task_id=task.id) }}">
+                            {% if task.is_complete %}
+                                <button class="button-small button-muted" type="submit">Mark as open</button>
+                            {% else %}
+                                <button class="button-small" type="submit">Mark complete</button>
+                            {% endif %}
+                        </form>
 
-                <div class="item-actions">
-                    <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
-                    <a class="danger-link" href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>
-                </div>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
+                        <div class="item-actions">
+                            <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
+                            <a class="danger-link" href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
-    <div class="empty-state">
-        {% if current_status == 'open' %}
-        <h2>No open tasks</h2>
-        <p>You do not currently have any open study tasks.</p>
-        <a class="button button-primary" href="{{ url_for('add_task') }}">Add task</a>
-        {% elif current_status == 'completed' %}
-        <h2>No completed tasks</h2>
-        <p>You have not completed any study tasks yet.</p>
-        <a class="button button-outline" href="{{ url_for('tasks', status='open') }}">View open tasks</a>
-        {% else %}
-        <h2>No study tasks yet</h2>
-        <p>Add a study task to start tracking your work and deadlines.</p>
-        <a class="button button-primary" href="{{ url_for('add_task') }}">
-            Add your first task
-        </a>
-        {% endif %}
-    </div>
+        <div class="empty-state">
+            {% if current_status == 'open' %}
+                <h2>No open tasks</h2>
+                <p>You do not currently have any open study tasks.</p>
+                <a class="button button-primary" href="{{ url_for('add_task') }}">Add task</a>
+            {% elif current_status == 'completed' %}
+                <h2>No completed tasks</h2>
+                <p>You have not completed any study tasks yet.</p>
+                <a class="button button-outline" href="{{ url_for('tasks', status='open') }}">View open tasks</a>
+            {% else %}
+                <h2>No study tasks yet</h2>
+                <p>Add a study task to start tracking your work and deadlines.</p>
+                <a class="button button-primary" href="{{ url_for('add_task') }}">Add your first task</a>
+            {% endif %}
+        </div>
     {% endif %}
 </section>
 {% endblock %}

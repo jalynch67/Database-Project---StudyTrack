@@ -221,3 +221,50 @@ body {
         width: 100%;
     }
 }
+
+
+/* Task pages */
+
+@media (max-width: 820px) {
+    .task-item {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .task-item-details {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .task-filters {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .task-filters a {
+        padding-right: 8px;
+        padding-left: 8px;
+        text-align: center;
+    }
+
+    .task-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .task-item-details {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .task-item-controls {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .task-item-controls form,
+    .task-item-controls button {
+        width: 100%;
+    }
+}
