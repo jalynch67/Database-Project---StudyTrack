@@ -10,14 +10,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 </head>
 
 <body>
     <header class="site-header">
         <nav class="site-nav" aria-label="Main navigation">
-            <a class="site-logo" href="{{ url_for('index') }}">
-                StudyTrack
-            </a>
+            <a class="site-logo" href="{{ url_for('index') }}">StudyTrack</a>
 
             <ul class="nav-links">
                 <li><a href="{{ url_for('index') }}">Dashboard</a></li>
@@ -33,9 +32,7 @@
         {% if messages %}
         <section class="messages" aria-label="Notifications">
             {% for category, message in messages %}
-            <p class="message message-{{ category }}">
-                {{ message }}
-            </p>
+            <p class="message message-{{ category }}">{{ message }}</p>
             {% endfor %}
         </section>
         {% endif %}

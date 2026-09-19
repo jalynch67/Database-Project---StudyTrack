@@ -3,17 +3,15 @@
 {% block title %}Page Not Found | StudyTrack{% endblock %}
 
 {% block content %}
-<section>
+<section class="error-page">
+    <p class="error-code">404</p>
     <h1>Page not found</h1>
-
     <p>
-        The page or record you requested could not be found.
+        The page or record you requested could not be found. It may have been
+        moved, deleted, or the address may be incorrect.
     </p>
-
-    <p>
-        It may have been moved, deleted, or the address may be incorrect.
-    </p>
-
-    <a href="{{ url_for('index') }}">Return to the Dashboard</a>
+    <a class="button button-primary" href="{{ url_for('index') }}">
+        Return to the Dashboard
+    </a>
 </section>
 {% endblock %}

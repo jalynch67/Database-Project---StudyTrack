@@ -3,18 +3,15 @@
 {% block title %}Server Error | StudyTrack{% endblock %}
 
 {% block content %}
-<section>
+<section class="error-page">
+    <p class="error-code">500</p>
     <h1>Something went wrong</h1>
-
     <p>
         StudyTrack could not complete your request because of an unexpected
-        server error.
+        server error. Please return to the Dashboard and try again.
     </p>
-
-    <p>
-        Please return to the Dashboard and try again.
-    </p>
-
-    <a href="{{ url_for('index') }}">Return to the Dashboard</a>
+    <a class="button button-primary" href="{{ url_for('index') }}">
+        Return to the Dashboard
+    </a>
 </section>
 {% endblock %}

@@ -3,24 +3,33 @@
 {% block title %}Delete {{ task.title }} | StudyTrack{% endblock %}
 
 {% block content %}
-<section>
-    <h1>Delete study task</h1>
+<section class="confirmation-page">
+    <a class="back-link" href="{{ url_for('tasks') }}">Back to tasks</a>
 
-    <p>
-        Are you sure you want to delete <strong>{{ task.title }}</strong>?
-    </p>
+    <div class="warning-panel">
+        <p class="warning-label">Delete task</p>
+        <h1>Delete {{ task.title }}?</h1>
 
-    <p>
-        This task belongs to {{ task.subject.name }}.
-    </p>
+        <p>
+            This action cannot be undone. The task will be permanently removed
+            from {{ task.subject.name }}.
+        </p>
 
-    <p>
-        This action cannot be undone.
-    </p>
+        <dl class="confirmation-details">
+            <div>
+                <dt>Subject</dt>
+                <dd>{{ task.subject.name }}</dd>
+            </div>
+            <div>
+                <dt>Due date</dt>
+                <dd>{{ task.due_date.strftime('%d %B %Y') }}</dd>
+            </div>
+        </dl>
 
-    <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}">
-        <button type="submit">Delete task</button>
-        <a href="{{ url_for('tasks') }}">Cancel</a>
-    </form>
+        <form class="confirmation-actions" method="POST" action="{{ url_for('delete_task', task_id=task.id) }}">
+            <button class="button-danger" type="submit">Delete task</button>
+            <a href="{{ url_for('tasks') }}">Cancel</a>
+        </form>
+    </div>
 </section>
 {% endblock %}
