@@ -158,9 +158,24 @@ def delete_subject(subject_id):
 
 @app.route("/tasks")
 def tasks():
-    """Display all study tasks."""
-    all_tasks = StudyTask.query.order_by(StudyTask.due_date).all()
-    return render_template("tasks/list.html", tasks=all_tasks)
+    """Display study tasks using the selected status filter."""
+    status = request.args.get("status", "all")
+    task_query = StudyTask.query
+
+    if status == "open":
+        task_query = task_query.filter_by(is_complete=False)
+    elif status == "completed":
+        task_query = task_query.filter_by(is_complete=True)
+    else:
+        status = "all"
+
+    all_tasks = task_query.order_by(StudyTask.due_date).all()
+
+    return render_template(
+        "tasks/list.html",
+        tasks=all_tasks,
+        current_status=status,
+    )
 
 
 @app.route("/tasks/add", methods=["GET", "POST"])

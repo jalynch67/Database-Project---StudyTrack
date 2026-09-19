@@ -14,6 +14,22 @@
 </section>
 
 <section>
+    <h2>Filter tasks</h2>
+
+    <nav aria-label="Task filters">
+        <a href="{{ url_for('tasks', status='all') }}">
+            All
+        </a>
+        <a href="{{ url_for('tasks', status='open') }}">
+            Open
+        </a>
+        <a href="{{ url_for('tasks', status='completed') }}">
+            Completed
+        </a>
+    </nav>
+</section>
+
+<section>
     {% if tasks %}
     <ul>
         {% for task in tasks %}
@@ -62,13 +78,19 @@
         {% endfor %}
     </ul>
     {% else %}
+    {% if current_status == 'open' %}
+    <h2>No open tasks</h2>
+    <p>You do not currently have any open study tasks.</p>
+    {% elif current_status == 'completed' %}
+    <h2>No completed tasks</h2>
+    <p>You have not completed any study tasks yet.</p>
+    {% else %}
     <h2>No study tasks yet</h2>
-
     <p>
         Add a study task to start tracking your work and deadlines.
     </p>
-
     <a href="{{ url_for('add_task') }}">Add your first task</a>
+    {% endif %}
     {% endif %}
 </section>
 {% endblock %}
