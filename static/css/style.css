@@ -332,10 +332,6 @@ button:hover {
     gap: 10px;
 }
 
-.hero-visual {
-    display: none;
-}
-
 .today-card {
     padding: 24px;
     align-self: center;
@@ -448,10 +444,6 @@ button:hover {
 
 .stat-card:hover {
     background: #f7fbf9;
-}
-
-.stat-icon {
-    display: none;
 }
 
 .stat-value {
