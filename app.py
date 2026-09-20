@@ -74,6 +74,10 @@ def add_subject():
         if len(name) > 100:
             flash("The subject name must be 100 characters or fewer.", "error")
             return render_template("subjects/add.html")
+        
+        if len(description) > 500:
+            flash("The subject description must be 500 characters or fewer.", "error")
+            return render_template("subjects/add.html")
 
         if colour not in allowed_colours:
             flash("Please select a valid subject colour.", "error")
@@ -125,6 +129,10 @@ def edit_subject(subject_id):
 
         if len(name) > 100:
             flash("The subject name must be 100 characters or fewer.", "error")
+            return render_template("subjects/edit.html", subject=subject)
+
+        if len(description) > 500:
+            flash("The subject description must be 500 characters or fewer.", "error")
             return render_template("subjects/edit.html", subject=subject)
 
         if colour not in allowed_colours:
@@ -211,6 +219,14 @@ def add_task():
     subjects=all_subjects,
     selected_subject_id=selected_subject_id,
 )
+            
+        if len(description) > 1000:
+            flash("The task description must be 1000 characters or fewer.", "error")
+            return render_template(
+    "tasks/add.html",
+    subjects=all_subjects,
+    selected_subject_id=selected_subject_id,
+)
 
         try:
             due_date = datetime.strptime(due_date_text, "%Y-%m-%d").date()
@@ -283,6 +299,14 @@ def edit_task(task_id):
 
         if len(title) > 150:
             flash("The task title must be 150 characters or fewer.", "error")
+            return render_template(
+                "tasks/edit.html",
+                task=task,
+                subjects=all_subjects,
+            )
+            
+        if len(description) > 1000:
+            flash("The task description must be 1000 characters or fewer.", "error")
             return render_template(
                 "tasks/edit.html",
                 task=task,
