@@ -1254,53 +1254,6 @@ button:hover {
     color: var(--colour-muted);
 }
 
-.feature-list {
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    list-style: none;
-}
-
-.feature-list li {
-    padding: 16px;
-    display: grid;
-    gap: 5px;
-    background: #f3f8f6;
-    border: 1px solid var(--colour-border);
-    border-radius: 8px;
-}
-
-.feature-list span {
-    color: var(--colour-muted);
-}
-
-.error-page {
-    max-width: 720px;
-    margin-right: auto;
-    margin-left: auto;
-    padding-top: 44px;
-    padding-bottom: 44px;
-    text-align: center;
-}
-
-.error-code {
-    margin-bottom: 8px;
-    color: var(--colour-primary);
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1;
-}
-
-.error-page > p:not(.error-code) {
-    max-width: 560px;
-    margin-right: auto;
-    margin-bottom: 22px;
-    margin-left: auto;
-    color: var(--colour-muted);
-}
-
 @media (max-width: 600px) {
     .feature-list,
     .confirmation-details div {
@@ -1398,11 +1351,6 @@ button:hover {
 
 .about-actions h2 {
     margin-bottom: 5px;
-}
-
-.about-actions p {
-    margin-bottom: 0;
-    color: var(--colour-muted);
 }
 
 .about-action-links {
@@ -1744,10 +1692,6 @@ body {
 }
 
 @media (max-width: 600px) {
-    .feature-list {
-        grid-template-columns: 1fr;
-    }
-
     .about-action-links {
         width: 100%;
         flex-direction: column;
