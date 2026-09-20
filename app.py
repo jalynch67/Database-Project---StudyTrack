@@ -182,6 +182,7 @@ def tasks():
 def add_task():
     """Display the task form and save a new study task."""
     all_subjects = Subject.query.order_by(Subject.name).all()
+    selected_subject_id = request.args.get("subject_id", type=int)
 
     if not all_subjects:
         flash("Add a subject before creating a study task.", "error")
@@ -197,26 +198,46 @@ def add_task():
 
         if not title:
             flash("Please enter a task title.", "error")
-            return render_template("tasks/add.html", subjects=all_subjects)
+            return render_template(
+    "tasks/add.html",
+    subjects=all_subjects,
+    selected_subject_id=selected_subject_id,
+)
 
         if len(title) > 150:
             flash("The task title must be 150 characters or fewer.", "error")
-            return render_template("tasks/add.html", subjects=all_subjects)
+            return render_template(
+    "tasks/add.html",
+    subjects=all_subjects,
+    selected_subject_id=selected_subject_id,
+)
 
         try:
             due_date = datetime.strptime(due_date_text, "%Y-%m-%d").date()
         except ValueError:
             flash("Please enter a valid due date.", "error")
-            return render_template("tasks/add.html", subjects=all_subjects)
+            return render_template(
+    "tasks/add.html",
+    subjects=all_subjects,
+    selected_subject_id=selected_subject_id,
+)
 
         if priority not in allowed_priorities:
             flash("Please select a valid priority.", "error")
-            return render_template("tasks/add.html", subjects=all_subjects)
+            return render_template(
+    "tasks/add.html",
+    subjects=all_subjects,
+    selected_subject_id=selected_subject_id,
+)
 
         subject = db.session.get(Subject, subject_id)
         if subject is None:
             flash("Please select a valid subject.", "error")
-            return render_template("tasks/add.html", subjects=all_subjects)
+            return render_template(
+    "tasks/add.html",
+    subjects=all_subjects,
+    selected_subject_id=selected_subject_id,
+)
 
         task = StudyTask(
             title=title,
@@ -231,7 +252,11 @@ def add_task():
         flash("Study task added successfully.", "success")
         return redirect(url_for("tasks"))
 
-    return render_template("tasks/add.html", subjects=all_subjects)
+    return render_template(
+    "tasks/add.html",
+    subjects=all_subjects,
+    selected_subject_id=selected_subject_id,
+)
 
 
 @app.route("/tasks/<int:task_id>/edit", methods=["GET", "POST"])
