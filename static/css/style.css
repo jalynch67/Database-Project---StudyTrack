@@ -88,8 +88,8 @@ a:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-    outline: 3px solid rgba(63, 114, 95, 0.25);
-    outline-offset: 2px;
+    outline: 3px solid #c65d24;
+    outline-offset: 3px;
 }
 
 /* Navigation */
@@ -495,7 +495,7 @@ button:hover {
 }
 
 .dashboard-task-item:hover {
-    border-color: #b4cec4;
+    border-color: #c65d24;
 }
 
 .task-marker {
@@ -693,7 +693,7 @@ button:hover {
 }
 
 .subject-item:hover {
-    border-color: #b4cec4;
+    border-color: #c65d24;
 }
 
 .subject-colour {
@@ -845,7 +845,7 @@ button:hover {
 }
 
 .subject-task-item:hover {
-    border-color: #b4cec4;
+    border-color: #c65d24;
 }
 
 .subject-task-item .task-main h3 {
@@ -951,7 +951,7 @@ button:hover {
 }
 
 .task-item:hover {
-    border-color: #b4cec4;
+    border-color: #c65d24;
 }
 
 .task-item-main {
