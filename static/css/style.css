@@ -1284,12 +1284,6 @@ button:hover {
     color: var(--colour-muted);
 }
 
-.about-actions > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
 .error-page {
     max-width: 720px;
     margin-right: auto;

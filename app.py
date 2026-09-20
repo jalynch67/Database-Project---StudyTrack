@@ -296,6 +296,7 @@ def edit_task(task_id):
         task.due_date = due_date
         task.priority = priority
         task.subject_id = subject.id
+        task.is_complete = "is_complete" in request.form
         db.session.commit()
 
         flash("Study task updated successfully.", "success")
